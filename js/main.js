@@ -39,3 +39,23 @@ function playRound(humanChoice, computerChoice) {
         return `You lose. ${computerChoice} beats ${humanChoice}`;
     }
 }
+
+function playGame() {
+    const numberOfRounds = 5;
+
+    for (let i = 0; i < numberOfRounds; i++) {
+        const humanSelection = getHumanChoice();
+        const computerSelection = getComputerChoice();
+
+        const result = playRound(humanSelection, computerSelection);
+        console.log(`Player: ${humanScore} - Computer: ${computerScore} \n${result}`);
+    }
+
+    if (humanScore == computerScore) {
+        console.log(`Game status: Tied \nPlayer: ${humanScore} - Computer: ${computerScore}`)
+    } else if (humanScore > computerScore) {
+        console.log(`Game status: Player Wins\nPlayer: ${humanScore} - Computer: ${computerScore}`)
+    } else {
+        console.log(`Game status: Computer Wins\nPlayer: ${humanScore} - Computer: ${computerScore}`)
+    }
+}
