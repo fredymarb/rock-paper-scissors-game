@@ -1,4 +1,6 @@
 const options = ["rock", "paper", "scissors"];
+let humanScore = 0;
+let computerScore = 0;
 
 function getComputerChoice() {
     return options[Math.floor(Math.random() * 3)];
@@ -19,5 +21,21 @@ function getHumanChoice() {
             validatedInput = true;
             return validatedChoice;
         }
+    }
+}
+
+function playRound(humanChoice, computerChoice) {
+    if (humanChoice === computerChoice) {
+        return `Tie. ${humanChoice} ties ${computerChoice}`;
+    } else if (
+        (humanChoice === "rock" && computerChoice === "scissors") ||
+        (humanChoice === "paper" && computerChoice === "rock") ||
+        (humanChoice === "scissors" && computerChoice === "paper")
+    ) {
+        humanScore += 1;
+        return `You win. ${humanChoice} beats ${computerChoice}`;
+    } else {
+        computerScore += 1;
+        return `You lose. ${computerChoice} beats ${humanChoice}`;
     }
 }
