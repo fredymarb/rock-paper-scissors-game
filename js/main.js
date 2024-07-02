@@ -59,3 +59,5 @@ function playGame() {
         console.log(`Game status: Computer Wins\nPlayer: ${humanScore} - Computer: ${computerScore}`)
     }
 }
+
+playGame();
