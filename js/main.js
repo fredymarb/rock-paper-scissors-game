@@ -57,9 +57,9 @@ buttons.forEach(item => {
         scoreboard.textContent = `Player: ${playerHealth} | Computer: ${computerHealth}`;
 
         if (isGameOver() && (playerHealth > computerHealth)) {
-            console.log("player won the game");
+            gameoverText.textContent = "player won the game"
         } else if (isGameOver() && (playerHealth < computerHealth)) {
-            console.log("computer won the game");
+            gameoverText.textContent = "computer won the game"
         }
     });
 });
