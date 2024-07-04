@@ -1,63 +1,78 @@
-const options = ["rock", "paper", "scissors"];
-let humanScore = 0;
-let computerScore = 0;
+const buttons = document.querySelectorAll(".btn");
+const scoreboard = document.querySelector(".scoreboard");
+const resultText = document.querySelector(".resultText");
+const gameoverText = document.querySelector(".gameover-text");
+const restartBtn = document.querySelector("#restart");
 
+let playerHealth = 5;
+let computerHealth = 5;
+
+// return computers selection
 function getComputerChoice() {
+    const options = ["rock", "paper", "scissors"];
     return options[Math.floor(Math.random() * 3)];
 }
 
-function getHumanChoice() {
-    let validatedInput = false;
-
-    while (validatedInput === false) {
-        const choice = prompt("Rock, paper or scissors", options[Math.floor(Math.random() * 3)]);
-
-        if (choice == null) {
-            continue;
-        }
-
-        const validatedChoice = choice.trim().toLowerCase();
-        if (options.includes(validatedChoice)) {
-            validatedInput = true;
-            return validatedChoice;
-        }
-    }
-}
-
-function playRound(humanChoice, computerChoice) {
+// main logic of the game
+function checkWinner(humanChoice, computerChoice) {
     if (humanChoice === computerChoice) {
-        return `Tie. ${humanChoice} ties ${computerChoice}`;
+        return "tie";
     } else if (
         (humanChoice === "rock" && computerChoice === "scissors") ||
         (humanChoice === "paper" && computerChoice === "rock") ||
         (humanChoice === "scissors" && computerChoice === "paper")
     ) {
-        humanScore += 1;
-        return `You win. ${humanChoice} beats ${computerChoice}`;
+        return "player";
     } else {
-        computerScore += 1;
-        return `You lose. ${computerChoice} beats ${humanChoice}`;
+        return "computer";
     }
 }
 
-function playGame() {
-    const numberOfRounds = 5;
+buttons.forEach(item => {
+    item.addEventListener("click", (e) => {
+        // base case to stop counting
+        if (isGameOver()) {
+            return;
+        }
 
-    for (let i = 0; i < numberOfRounds; i++) {
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
+        let humanSelection = e.target.id;
+        let computerSelection = getComputerChoice();
 
-        const result = playRound(humanSelection, computerSelection);
-        console.log(`Player: ${humanScore} - Computer: ${computerScore} \n${result}`);
+        let result = checkWinner(humanSelection, computerSelection);
+
+        switch (result) {
+            case "player":
+                resultText.textContent = `Impressive attack! The enemy lost one life, because the great power of your ${humanSelection} crushed his ${computerSelection}!`;
+                computerHealth -= 1;
+                break;
+            case "computer":
+                resultText.innerText = `Unfortunate defeat.. You lost one life, because your ${humanSelection} lacks of power against enemy's ${computerSelection}!`;
+                playerHealth -= 1;
+                break;
+            default:
+                resultText.textContent = `Hmm.. Two ${humanSelection}s means a draw, so no lives were lost. Let's try again.`;
+                break;
+        }
+
+        scoreboard.textContent = `Player: ${playerHealth} | Computer: ${computerHealth}`;
+
+        if (isGameOver() && (playerHealth > computerHealth)) {
+            console.log("player won the game");
+        } else if (isGameOver() && (playerHealth < computerHealth)) {
+            console.log("computer won the game");
+        }
+    });
+});
+
+// checks if any of the score is 0
+function isGameOver() {
+    if (playerHealth === 0 || computerHealth === 0) {
+        return true;
     }
-
-    if (humanScore == computerScore) {
-        console.log(`Game status: Tied \nPlayer: ${humanScore} - Computer: ${computerScore}`)
-    } else if (humanScore > computerScore) {
-        console.log(`Game status: Player Wins\nPlayer: ${humanScore} - Computer: ${computerScore}`)
-    } else {
-        console.log(`Game status: Computer Wins\nPlayer: ${humanScore} - Computer: ${computerScore}`)
-    }
+    return false;
 }
 
-playGame();
+// restart the game
+restartBtn.addEventListener("click", () => {
+    window.location.reload();
+})

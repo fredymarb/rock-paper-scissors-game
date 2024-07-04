@@ -1,0 +1,15 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 52px;
+}
+
+.options {
+    border: 1px solid black;
+}
+
+.results {
+    border: 1px solid black;
+}
