@@ -1,4 +1,5 @@
 const buttons = document.querySelectorAll(".btn");
+const computerChoice = document.querySelector(".computer-choice");
 const scoreboard = document.querySelector(".scoreboard");
 const resultText = document.querySelector(".resultText");
 const gameoverText = document.querySelector(".gameover-text");
@@ -28,6 +29,7 @@ function checkWinner(humanChoice, computerChoice) {
     }
 }
 
+//play when user makes a choice
 buttons.forEach(item => {
     item.addEventListener("click", (e) => {
         // base case to stop counting
@@ -35,10 +37,9 @@ buttons.forEach(item => {
             return;
         }
 
-        let humanSelection = e.target.id;
-        let computerSelection = getComputerChoice();
-
-        let result = checkWinner(humanSelection, computerSelection);
+        const humanSelection = e.target.id;
+        const computerSelection = getComputerChoice();
+        const result = checkWinner(humanSelection, computerSelection);
 
         switch (result) {
             case "player":
@@ -54,6 +55,7 @@ buttons.forEach(item => {
                 break;
         }
 
+        computerChoice.textContent = `Computer selection: ${computerSelection}`;
         scoreboard.textContent = `Player: ${playerHealth} | Computer: ${computerHealth}`;
 
         if (isGameOver() && (playerHealth > computerHealth)) {
